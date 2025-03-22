@@ -20,14 +20,11 @@ Joueur joueur1;
 // TEST
 int x = 50;
 int y = 50;
-int ecranActif = 0;
 int speedX = 2;
 int speedY = 2;
 float amplitude = 50;
 float periode = 50;
 
-
-init();
 
 void setup() {
   size(900, 700);  
