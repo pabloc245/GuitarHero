@@ -3,8 +3,9 @@ int y = 50;
 int speedX = 2;
 int speedY = 2;
 
+
 void setup() {
-  size(400, 400);  // Taille de la fenêtre
+  size(900, 700);  // Taille de la fenêtre
 }
 
 void draw() {
