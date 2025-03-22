@@ -13,7 +13,7 @@ class Bouton{
         this.txt = txt;
     }
     void dessiner(){
-        rect(x, y, w, h, 10);
+        rect(x, y, w, h, 5);
         fill(Couleur);
         textSize(int(h*0.7));
         text(txt, x + w/2, y + h/2, couleurBouton);

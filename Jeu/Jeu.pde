@@ -15,7 +15,11 @@ Bouton[] BoutonMenu = {
   new Bouton(300, POS_MENU + 65, 200, 50, couleurBouton, "Options"),
   new Bouton(300, POS_MENU + 65*2, 200, 50, couleurBouton, "Quitter")
 };
-
+enum B {
+  JEU,
+  OPTIONS,
+  QUITTER,
+}
 
 // Interface Jeu
 Joueur joueur1;
@@ -92,7 +96,14 @@ void keyPressed() {
 }
 
 void mousePressed(){
-  // if(bouton1.clic()){
-  //   println("Bouton");
-  // }
+  evenmentBouton();
+}
+
+void evenmentBouton(){
+  int numeroBouton;
+  for(int i=0; i < 3; i++){
+    ecranActif = BoutonMenu[i].clic() ? i : ecranActif;
+  }
+  println("Bouton" + ecranActif);
+
 }
