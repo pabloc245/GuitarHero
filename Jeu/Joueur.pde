@@ -4,12 +4,14 @@ class Joueur{
     int point, niveau;
 
     Joueur(int points, int niveau){
-        this.point = point;
-        this.niveau =niveau;
+        this.point = points;
+        this.niveau = niveau;
     }
     boolean enVie(){
-        if(1){}
+        if(point > 0){
+            // Code si le joueur a des points
+        }
         return true;
     }
-    
+
 }
