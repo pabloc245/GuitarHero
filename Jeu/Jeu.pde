@@ -1,5 +1,6 @@
 // 1. DÉCLARATION DES CONSTANTES
 final int MENU = 0;
+final int POS_MENU = 75;
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
 int ecranActif = MENU;
@@ -8,6 +9,12 @@ boolean partieEnCours = false;
 // 3. VARIABLES UI REGROUPÉES PAR FONCTION
 // Interface Menu
 String[] textesBoutons = {"Jouer", "Options", "Quitter"};
+color couleurBouton = color(0, 255, 78);
+Bouton[] BoutonMenu = {
+  new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
+  new Bouton(300, POS_MENU + 65, 200, 50, couleurBouton, "Options"),
+  new Bouton(300, POS_MENU + 65*2, 200, 50, couleurBouton, "Quitter")
+};
 
 
 // Interface Jeu
@@ -29,6 +36,7 @@ float periode = 50;
 void setup() {
   size(900, 700);  
   background(255);
+  textAlign(CENTER, CENTER);
   noFill();
   stroke(0, 200, 255);
   println(frameRate);

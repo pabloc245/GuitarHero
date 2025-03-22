@@ -1,5 +1,6 @@
 class Bouton{
     int x, y, w, h;
+
     color Couleur;
     String txt;
 
@@ -15,7 +16,7 @@ class Bouton{
         rect(x, y, w, h, 10);
         fill(Couleur);
         textSize(int(h*0.7));
-        text(txt, x, y + h);
+        text(txt, x + w/2, y + h/2, couleurBouton);
         noFill();
     }
     boolean clic(){
