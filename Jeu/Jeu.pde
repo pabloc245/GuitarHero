@@ -1,12 +1,15 @@
 // 1. DÉCLARATION DES CONSTANTES
 final int MENU = 0;
-final int POS_MENU = 75;
+final int POS_MENU = 190;
+final int DEPART_LIGNE = 125;
+final float FIN_LIGNE = 230;
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
 int ecranActif = MENU;
 boolean partieEnCours = false;
 
 // 3. VARIABLES UI REGROUPÉES PAR FONCTION
+
 // Interface Menu
 String[] textesBoutons = {"Jouer", "Options", "Quitter"};
 color couleurBouton = color(0, 255, 78);
@@ -19,9 +22,19 @@ enum B {
   JEU,
   OPTIONS,
   QUITTER,
-}
+};
 
 // Interface Jeu
+enum Note{
+  DO,
+  RE,
+  MI,
+  FA,
+  SOL,
+  LA,
+  SI,
+  
+}
 Joueur joueur1;
 
 // 4. RESSOURCES
