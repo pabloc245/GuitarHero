@@ -1,3 +1,4 @@
+import processing.serial.*;
 // 1. DÉCLARATION DES CONSTANTES
 final int MENU = 0;
 final int POS_MENU = 190;
@@ -49,6 +50,9 @@ int speedY = 2;
 float amplitude = 50;
 float periode = 50;
 
+//PORT USB
+Serial myPort; 
+
 
 void setup() {
   size(900, 700);  
@@ -57,7 +61,8 @@ void setup() {
   noFill();
   stroke(0, 200, 255);
   println(frameRate);
-
+  printArray(Serial.list());
+  myPort = new Serial(this, Serial.list()[0], 9600);
 }
 
 void draw() {
@@ -80,6 +85,8 @@ void draw() {
     vertex(x, y);
   }
   endShape();
+
+  readUSBPort();
 
   switch(ecranActif) {
     case 0:
