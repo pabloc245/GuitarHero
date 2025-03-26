@@ -1,20 +1,31 @@
-class Rectangle{
-
-    boolean vie = true;
-    float x = DEPART_LIGNE;
-    float y,w,h;
-    Rectangle(float y, float w, float h){
-        this.y = y;
-        this.w = w;
-        this.h = h;
+class Notes{
+    ArrayList<Notes> touche;
+    float y=LIGNESX;
+    float x;
+    float w = 20;
+    float h = 20;
+    boolean touched;
+    int n;
+    Notes(float x, ArrayList<Notes> touche, int n){
+        this.n = n;
+        this.x = x*n;
+        this.touche = touche;
+        println("New note");
     }
-    void move(){
-        
-        if(x < FIN_LIGNE){
-            x += 5;
+    boolean move(){        
+        if(y < FIN_LIGNE){
+            y += VITESSE;
+            if(!touched){
+                noFill();
+            }else{
+                fill(204, 102, 0);
+            }
+            rect(x, y, w, h);
+            noFill();
+            return false;
         }else{
-            vie = false;
+            return true;
         }
-        rect(x, y, w, h);
     }
+
 }
