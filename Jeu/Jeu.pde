@@ -30,19 +30,18 @@ enum B {
   QUITTER,
 };//inutile mais on sait jamais
 
+// A : La
+// B : Si
+// C : Do
+// D : Ré
+// E : Mi
+// F : Fa
+// G : Sol
+
 // Interface Jeu
-enum Note{
-  DO1,
-  RE,
-  MI,
-  FA,
-  SOL,
-  LA,
-  SI,
-  DO2
-}
+
 Joueur joueur1;
-ArrayList<Notes> touche = new ArrayList<Notes>();
+ArrayList<Notes> touche = new ArrayList<>();
 ArrayList<Notes> notesToRemove = new ArrayList<>();
 
 // 4. RESSOURCES
@@ -67,21 +66,24 @@ void setup() {
   textAlign(CENTER, CENTER);
   noFill();
   stroke(0, 200, 255);
-  println(frameRate);
-  printArray(Serial.list());
+  println("Framerate: "+frameRate);
   if(Serial.list().length>0){
     myPort = new Serial(this, Serial.list()[0], 9600);
   }else{
     println("Il n'y a pas d'instrument brancher");
   }
   dessinerJeu(); 
-  
+  Partition partition = new Partition("text.abc");
+  partition.clean();
+  partition.metaData();
+  touche = partition.lecture();
+
 }
 
 void draw() {
   background(255);
   ellipse(x, y, 50, 50);  
-  line(0, FIN_LIGNE, 500, FIN_LIGNE); 
+  line(0, FIN_LIGNE+10, 500, FIN_LIGNE+10); 
   
   x += speedX;
   y += speedY;
@@ -100,7 +102,7 @@ void draw() {
   }
   endShape();
 
-  //readUSBPort();
+  
 
   switch(ecranActif) {
     case 0:
@@ -115,11 +117,11 @@ void draw() {
   }
 }
 
-
-
+void serialEvent(Serial p) { 
+  //void readUSBPort();
+} 
 
 void keyPressed() {
-  println(keyCode);
   switch (keyCode) {
     case UP:
       periode += 5;
@@ -136,8 +138,6 @@ void keyPressed() {
     case 69://'e'
       testKey(2);
       break;
- 
-    
   }
 }
 void testKey(int nnn){

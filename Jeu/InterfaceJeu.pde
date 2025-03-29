@@ -1,7 +1,7 @@
 void dessinerJeu(){
         
-    println(touche.size());
     for (Notes note : touche) {
+        note.print();
         if (note.move()) {
             notesToRemove.add(note);
         }   
@@ -10,6 +10,6 @@ void dessinerJeu(){
     notesToRemove.clear();
 
     if(frameCount%32==0){
-       touche.add(new Notes(LIGNESX, touche, int(random(3))));
+       //touche.add(new Notes(LIGNESX));
     }
 }

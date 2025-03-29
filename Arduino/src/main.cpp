@@ -15,10 +15,12 @@ void setup() {
 
 void loop(){
   if(newData){
-    Serial.print("frequence:");
+    //Serial.print("frequence:");
     Serial.println(frequence);
     newData = false;
     prev_time= micros();
+  }else{
+    Serial.println(0);
   }
 }
 
