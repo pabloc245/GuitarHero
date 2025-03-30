@@ -4,7 +4,7 @@ class Notes{
     float w = 20;
     float h = 20;
     boolean touched;
-    int n;
+    char n;
     int octave = 1;
     int alteration = 0;// 1 = #(diese); 2 = xb(bemol)
     float duree=1;
@@ -13,7 +13,7 @@ class Notes{
     Notes(float x){
         this.n = n;
     }
-    Notes(int n, int octave, float duree, int alteration){
+    Notes(char n, int octave, float duree, int alteration){
         this.octave = octave;
         this.duree = duree;
         this.alteration = alteration;
@@ -34,36 +34,53 @@ class Notes{
             return true;
         }
     }
-    void print(){
+    void printN(){
         String s;
+        // A : La
+        // B : Si
+        // C : Do
+        // D : Re
+        // E : Mi
+        // F : Fa
+        // G : Sol
+        
         switch(n){
-            case 1:
-                s="DO";
+            case 'A':
+                s="La";
+                break; 
+            case 'B':
+                s="Si";
                 break;
-            case 2:
-                s="RE";
+            case 'C':
+                s="Do";
                 break;
-            case 3:
-                s="MI";
+            case 'D':
+                s="Re";
                 break;
-            case 4:
-                s="FA";
+            case 'E':
+                s="Mi";
                 break;
-            case 5:
-                s="SOL";
+            case 'F':
+                s="Fa";
                 break;
-            case 6:
-                s="LA";
-                break;
-            case 7:
-                s="SI";
+            case 'G':
+                s="Sol";
                 break;
             default:
                 s="None";
                 break;
 
         }
-        println(s);
+        
+        if(alteration>0){
+            print("#"+s+" ");
+        }else if(alteration<0){
+            print(s+"b"+" ");
+        }else{
+            print(s+" ");
+        }
+        
+        //println();
     }
 
 }

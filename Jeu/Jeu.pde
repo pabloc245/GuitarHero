@@ -118,7 +118,7 @@ void draw() {
 }
 
 void serialEvent(Serial p) { 
-  //void readUSBPort();
+  //readUSBPort();
 } 
 
 void keyPressed() {
@@ -140,6 +140,7 @@ void keyPressed() {
       break;
   }
 }
+
 void testKey(int nnn){
   for (Notes note : touche) {
     if (note.y > FIN_LIGNE-40 && note.n==nnn) {

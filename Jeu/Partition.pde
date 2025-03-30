@@ -55,6 +55,7 @@ class Partition{
                         if (c == '/') {
                             conc++;
                         } else if (c >= '0' && c <= '9') { 
+                            println("c: " + c);
                             this.mesure[conc]= c - '0';                                                    
                         }
                         
@@ -79,7 +80,7 @@ class Partition{
     }
 
     ArrayList<Notes> lecture(){
-        println("lecture...");
+        println("lecture...\n\n\n");
         int cont = 0;
         listeNote = new ArrayList<>();
 
@@ -90,62 +91,100 @@ class Partition{
                 Notes tempNote = null; 
                 int alteration = 0; 
                 int octave = 0;
-                float duree = 1;
-                int note; ///Do:1 , Re:2, Mi:3, Fa:4, Sol:5, La:6, Si:7;
+                float[] duree = {1, 1};
+                ///Do:1 , Re:2, Mi:3, Fa:4, Sol:5, La:6, Si:7;
 
-                print(ca[i]);
+               // print(ca[i]);
                 if(ca[i] >= 'A' && ca[i] <= 'Z'){
-                    if(ca[i+1] != ' '){
-                        if(ca[abs(i-1)] == '^'){
-                            alteration = 1;// #diese
-                        }else if(ca[abs(i-1)]=='_'){
-                            alteration = 2;// bemol
-                        }
-                        if(ca[i+1]==','){
-                            octave++;
-                            if(ca[i+2]==','){
-                                octave++;
-                            }
-                        }
+                    //Note + Altération + Octave + Durée
+                    
+                    alteration = alteration(i, ca);
+                    octave = octave(i, ca, alteration, octave);
+                    time(i, ca, octave, duree);
     
-                    }else{
-                        println(ca[i]-'A'+1);
-                        tempNote = new Notes(ca[i]-'A'+1, octave, duree, alteration); // n,  octave, duree,  alteration
-                    }
-                    
-                    
+                    println("Note spe: " + ca[i] + ", " + alteration + ", " + octave + ", " + duree[0]/duree[1]);
+                    tempNote = new Notes(ca[i], octave, duree[0]/duree[1], alteration);                    
+
+
                 }else if(ca[i]>='a' && ca[i]<='z'){
                     octave++;
-                    if(ca[i+1] !=' '){
-                        if(ca[abs(i-1)]=='^'){
-                            alteration = 1;// #diese
-                        }else if(ca[abs(i-1)]=='_'){
-                            alteration = 2;// bemol
-                        }
-                        if(ca[i+1]==','){
-                            octave++;
-                        }
+
+                    alteration = alteration(i, ca);
+                    octave = octave(i, ca, alteration, octave);
+                    //time(i, ca, alteration, octave-1, lNote);
     
-                    }else{
-                        tempNote = new Notes(ca[i]-'a'+1, octave, duree, alteration); // n,  octave, duree,  alteration     
-                        
-                    }              
+                    println("Note spe: " + ca[i] + ", " + alteration + ", " + octave + ", " + duree[0]/duree[1]);
+                    tempNote = new Notes(ca[i], octave, duree[0]/duree[1], alteration);     
+
                 }
 
 
                 if (tempNote != null) {
                     listeNote.add(tempNote);
-                } else {
-                    println("pas de note");
-                }               
+                }            
             
             }         
         }
 
+        println();
         for (Notes note : listeNote) {
             //println("Tialle: "+listeNote.length());
-            note.print();   
+            note.printN();   
         }
+        println("\n\n\n\n");
+        println("Mesure: "+ mesure[0] + '/' + mesure[1]);
         return listeNote;    
+    }
+
+
+}
+
+
+
+int alteration(int i, char[] ca){
+    int valAlteration = 0;
+    if(i > 0){
+        if(ca[i-1] == '^'){
+
+            if(i-1 > 0 && ca[i-2] == '^'){
+                valAlteration --;// ##diese
+            }
+            valAlteration --;// #diese
+        }else if(ca[i-1]=='_'){
+
+            if(i-1 > 0 && ca[i-2] == '_'){
+            valAlteration ++;// #bbemol
+            }            
+            valAlteration ++;// bemol
+        }
+    }
+    return valAlteration;
+    
+}
+
+int octave(int i, char[] ca, int alteration, int octave){
+
+    if(ca[i+1]==','){
+        octave--;
+        if(ca[i+2]==','){
+            octave--;
+        }
+    }
+    if(ca[i+1+alteration]==39){
+        octave+=2;
+    }
+    return octave;
+}
+
+void time(int i, char[] ca, int octave, float lNote[]){
+    if(i + abs(octave) < ca.length){
+        if(ca[i+1+abs(octave)] >= '0' && ca[i+1+abs(octave)] <= '9'){
+                lNote[0] = ca[i+1+abs(octave)] - '0';
+                if(ca[i+2+abs(octave)] == '/'){
+                    lNote[1] = ca[i+3+abs(octave)] - '0';
+                }
+        }else if(ca[i+1+abs(octave)]=='/'){
+            lNote[1] = ca[i+2+abs(octave)] - '0';
+        }
     }
 }

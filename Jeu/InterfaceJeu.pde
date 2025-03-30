@@ -1,7 +1,7 @@
 void dessinerJeu(){
         
     for (Notes note : touche) {
-        note.print();
+        note.printN();
         if (note.move()) {
             notesToRemove.add(note);
         }   
