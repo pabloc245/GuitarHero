@@ -1,6 +1,6 @@
 class Notes{
-    float y=LIGNESX;
-    float x;
+    float y = LIGNEY;
+    float x = LIGNESX;
     float w = 20;
     float h = 20;
     boolean touched;
@@ -18,8 +18,10 @@ class Notes{
         this.duree = duree;
         this.alteration = alteration;
         this.n = n;
+        this.x = (n-64)*x;
     }
-    boolean move(){        
+
+    boolean move(){     
         if(y < FIN_LIGNE){
             y += VITESSE;
             if(!touched){
@@ -27,13 +29,15 @@ class Notes{
             }else{
                 fill(204, 102, 0);
             }
-            rect(x*n, y, w, h);
+            rect(x, y, w, h);
             noFill();
+            //println("Note: " + n + " x: "+ x + " y: " + y );
             return false;
         }else{
             return true;
         }
     }
+
     void printN(){
         String s;
         // A : La

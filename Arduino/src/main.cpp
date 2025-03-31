@@ -5,6 +5,19 @@ volatile long prev_time = 0;
 volatile int frequence = 0;
 unsigned long current_time;
 
+double f0 = 261.0;
+
+// enum notes{
+//   DO,
+//   RE,
+//   MI,
+//   FA,
+//   SOL,
+//   LA,
+//   SI,
+//   DO,
+// };
+
 
 void rising();
 
@@ -15,13 +28,11 @@ void setup() {
 
 void loop(){
   if(newData){
-    //Serial.print("frequence:");
     Serial.println(frequence);
     newData = false;
     prev_time= micros();
-  }else{
-    Serial.println(0);
   }
+  delay(100);
 }
 
 void rising() {

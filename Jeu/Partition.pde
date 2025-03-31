@@ -55,7 +55,7 @@ class Partition{
                         if (c == '/') {
                             conc++;
                         } else if (c >= '0' && c <= '9') { 
-                            println("c: " + c);
+                            //println("c: " + c);
                             this.mesure[conc]= c - '0';                                                    
                         }
                         
@@ -83,7 +83,8 @@ class Partition{
         println("lecture...\n\n\n");
         int cont = 0;
         listeNote = new ArrayList<>();
-
+        ArrayList<Notes> tempListe = new ArrayList<>();
+        boolean stop = true;
 
         for (int j = start; j < abcLines.length; j++) {
             char[] ca = abcLines[j].toCharArray();
@@ -118,9 +119,21 @@ class Partition{
 
                 }
 
-
+                if(ca[i]==':'){
+                    println("Copie de la liste");
+                    listeNote.addAll(tempListe);
+                    tempListe.clear();
+                    stop = !stop;
+                }
                 if (tempNote != null) {
+                    if(!stop){
+                        println("repetition");
+                        tempListe.add(tempNote);                            
+                    }else{
+                        listeNote.add(tempNote);
+                    }
                     listeNote.add(tempNote);
+                    
                 }            
             
             }         
@@ -128,7 +141,6 @@ class Partition{
 
         println();
         for (Notes note : listeNote) {
-            //println("Tialle: "+listeNote.length());
             note.printN();   
         }
         println("\n\n\n\n");

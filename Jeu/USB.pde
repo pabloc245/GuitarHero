@@ -1,5 +1,5 @@
  
-void readUSBPort(){
+int readUSBPort(){
     
   int lf = 10;
   // Expand array size to the number of bytes you expect:
@@ -10,7 +10,8 @@ void readUSBPort(){
     String myString = new String(inBuffer);
     myString = trim(myString);
     int myInt= int(trim(myString));
-    // println(myString);
-    // println(myInt);
+    return myInt;
+  }else{
+    return 0;
   }
 }

@@ -42,6 +42,7 @@ enum B {
 
 Joueur joueur1;
 ArrayList<Notes> touche = new ArrayList<>();
+ArrayList<Notes> active = new ArrayList<>();
 ArrayList<Notes> notesToRemove = new ArrayList<>();
 
 // 4. RESSOURCES
@@ -49,6 +50,7 @@ ArrayList<Notes> notesToRemove = new ArrayList<>();
 
 
 // TEST
+int z = 0;
 int x = 50;
 int y = 50;
 int speedX = 2;
@@ -66,17 +68,26 @@ void setup() {
   textAlign(CENTER, CENTER);
   noFill();
   stroke(0, 200, 255);
-  println("Framerate: "+frameRate);
-  if(Serial.list().length>0){
-    myPort = new Serial(this, Serial.list()[0], 9600);
-  }else{
-    println("Il n'y a pas d'instrument brancher");
+  println("Framerate: " + frameRate);
+
+  if(Serial.list().length>0 ){
+    try{
+      myPort = new Serial(this, Serial.list()[0], 9600);
+    } catch (Exception e) {
+      println("Erreur : Le port " + Serial.list()[0] + " est déjà utilisé ou inaccessible.");
+    }
   }
-  dessinerJeu(); 
+
+
   Partition partition = new Partition("text.abc");
   partition.clean();
   partition.metaData();
-  touche = partition.lecture();
+  active = partition.lecture();
+  print("Touche:");
+  for(int i = 0; i < touche.size(); i++){
+    touche.get(i).printN();
+  }
+  dessinerJeu(); 
 
 }
 
@@ -118,7 +129,7 @@ void draw() {
 }
 
 void serialEvent(Serial p) { 
-  //readUSBPort();
+  println(readUSBPort());
 } 
 
 void keyPressed() {
@@ -130,20 +141,22 @@ void keyPressed() {
       periode -= 5;
       break;
     case 65: //'a'
-      testKey(0);
+      testKey('A');
       break;
     case 90://'z'
-      testKey(1);
+      testKey('B');
       break;
     case 69://'e'
-      testKey(2);
+      testKey('C');
       break;
   }
 }
 
-void testKey(int nnn){
+void testKey(char noteeee){
+  println("Note: " + noteeee);
   for (Notes note : touche) {
-    if (note.y > FIN_LIGNE-40 && note.n==nnn) {
+    if (note.y > FIN_LIGNE-40 && note.n==noteeee) {
+      println(note.n);
       note.touched = true;
     }   
   }
