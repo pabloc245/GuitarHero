@@ -4,9 +4,13 @@ import processing.serial.*;
 final int MENU = 0;
 final int POS_MENU = 190;
 
+final float TEMPO = 32;
+
 final float LIGNESX = 80;
 final float LIGNEY = 30;
 final float FIN_LIGNE = 600;
+final int H_RECT = 20;
+final int W_RECT = 20;
 final int VITESSE = 2;
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
@@ -17,18 +21,14 @@ boolean partieEnCours = false;
 
 // Interface Menu
 String[] textesBoutons = {"Jouer", "Options", "Quitter"};
-color couleurBouton = color(0, 255, 78);
+color couleurBouton = color(0, 0, 0);
 Bouton[] BoutonMenu = {
   new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
   new Bouton(300, POS_MENU + 65, 200, 50, couleurBouton, "Options"),
   new Bouton(300, POS_MENU + 65*2, 200, 50, couleurBouton, "Quitter")
 };
 
-enum B {
-  JEU,
-  OPTIONS,
-  QUITTER,
-};//inutile mais on sait jamais
+//inutile mais on sait jamais
 
 // A : La
 // B : Si
@@ -40,6 +40,7 @@ enum B {
 
 // Interface Jeu
 
+float fact = 1;
 Joueur joueur1;
 ArrayList<Notes> touche = new ArrayList<>();
 ArrayList<Notes> active = new ArrayList<>();
@@ -67,7 +68,7 @@ void setup() {
   background(255);
   textAlign(CENTER, CENTER);
   noFill();
-  stroke(0, 200, 255);
+  stroke(0, 0, 0);
   println("Framerate: " + frameRate);
 
   if(Serial.list().length>0 ){
@@ -84,17 +85,16 @@ void setup() {
   partition.metaData();
   active = partition.lecture();
   print("Touche:");
-  for(int i = 0; i < touche.size(); i++){
-    touche.get(i).printN();
+  for(Notes note : active){
+    note.printN();
   }
-  dessinerJeu(); 
 
 }
 
 void draw() {
   background(255);
   ellipse(x, y, 50, 50);  
-  line(0, FIN_LIGNE+10, 500, FIN_LIGNE+10); 
+  line(0, FIN_LIGNE + W_RECT, 500, FIN_LIGNE + W_RECT); 
   
   x += speedX;
   y += speedY;

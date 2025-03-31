@@ -1,13 +1,13 @@
 class Notes{
     float y = LIGNEY;
     float x = LIGNESX;
-    float w = 20;
-    float h = 20;
+    float w = W_RECT;
+    float h = H_RECT;
     boolean touched;
     char n;
     int octave = 1;
     int alteration = 0;// 1 = #(diese); 2 = xb(bemol)
-    float duree=1;
+    float duree =1;
     
 
     Notes(float x){
@@ -19,19 +19,28 @@ class Notes{
         this.alteration = alteration;
         this.n = n;
         this.x = (n-64)*x;
+        this.h = h*duree;
     }
 
     boolean move(){     
         if(y < FIN_LIGNE){
             y += VITESSE;
+
+            pushMatrix(); // Sauvegarde l'état graphique
+            pushStyle(); 
             if(!touched){
                 noFill();
             }else{
                 fill(204, 102, 0);
             }
             rect(x, y, w, h);
+
+            popStyle();   // Restaure les attributs de style
+            popMatrix();  
+
             noFill();
             //println("Note: " + n + " x: "+ x + " y: " + y );
+            //println();
             return false;
         }else{
             return true;

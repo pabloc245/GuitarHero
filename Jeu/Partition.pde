@@ -96,7 +96,7 @@ class Partition{
                 ///Do:1 , Re:2, Mi:3, Fa:4, Sol:5, La:6, Si:7;
 
                // print(ca[i]);
-                if(ca[i] >= 'A' && ca[i] <= 'Z'){
+                if(ca[i] >= 'A' && ca[i] <= 'G' || ca[i]=='Z'){
                     //Note + Altération + Octave + Durée
                     
                     alteration = alteration(i, ca);
@@ -107,7 +107,7 @@ class Partition{
                     tempNote = new Notes(ca[i], octave, duree[0]/duree[1], alteration);                    
 
 
-                }else if(ca[i]>='a' && ca[i]<='z'){
+                }else if(ca[i]>='a' && ca[i]<='g' || ca[i]=='Z'){
                     octave++;
 
                     alteration = alteration(i, ca);
