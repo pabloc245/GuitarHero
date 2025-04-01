@@ -57,40 +57,30 @@ class Notes{
         // F : Fa
         // G : Sol
         
-        switch(n){
-            case 'A':
-                s="La";
-                break; 
-            case 'B':
-                s="Si";
-                break;
-            case 'C':
-                s="Do";
-                break;
-            case 'D':
-                s="Re";
-                break;
-            case 'E':
-                s="Mi";
-                break;
-            case 'F':
-                s="Fa";
-                break;
-            case 'G':
-                s="Sol";
-                break;
-            default:
-                s="None";
-                break;
-
+        if(n=='A' || n=='a'){
+            s="La";
+        }else if(n=='B'|| n=='b'){
+            s="Si";
+        }else if(n=='C'|| n=='c'){
+            s="Do";
+        }else if(n=='D' || n=='d'){
+            s="Re";
+        }else if(n=='E' || n=='e'){
+            s="Mi";
+        }else if(n=='F' || n=='f'){
+            s="Fa";
+        }else if(n=='G' || n=='g'){
+            s="Sol";
+        }else{
+            s=str(n);
         }
         
         if(alteration>0){
-            print("#"+s+" ");
+            print("#"+this.duree+s+" ");
         }else if(alteration<0){
-            print(s+"b"+" ");
+            print(this.duree+s+"b"+" ");
         }else{
-            print(s+" ");
+            print(this.duree+s+" ");
         }
         
         //println();

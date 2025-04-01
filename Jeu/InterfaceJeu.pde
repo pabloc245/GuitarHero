@@ -3,7 +3,7 @@ void dessinerJeu(){
     if(frameCount% (int)(TEMPO*fact) == 0){
         if(!(z+1 > active.size())){
             touche.add(active.get(z)); 
-            println("ajout: " + z + active.size());
+            println("ajout: " + z +" "+ "size: " + active.size());
 
             if(z+1>  active.size()){
                 fact = active.get(z+1).duree;

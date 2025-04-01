@@ -131,9 +131,7 @@ class Partition{
                         tempListe.add(tempNote);                            
                     }else{
                         listeNote.add(tempNote);
-                    }
-                    listeNote.add(tempNote);
-                    
+                    }                    
                 }            
             
             }         
@@ -195,7 +193,7 @@ void time(int i, char[] ca, int octave, float lNote[]){
                 if(ca[i+2+abs(octave)] == '/'){
                     lNote[1] = ca[i+3+abs(octave)] - '0';
                 }
-        }else if(ca[i+1+abs(octave)]=='/'){
+        }else if(ca[i+1+abs(octave)]=='/' && ca[i+1+abs(octave)] >= '0' && ca[i+1+abs(octave)] <= '9'){
             lNote[1] = ca[i+2+abs(octave)] - '0';
         }
     }
