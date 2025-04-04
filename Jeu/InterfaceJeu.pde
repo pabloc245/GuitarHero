@@ -43,7 +43,7 @@ void dessinerJeu(){
 }
 
 float f(float y, int n){// Pour determiner x
-    float offset = START_X +  2*n;
+    float offset = START_X + 2 * lNote[n];
     int milieu = NB_NOTES/2;
     return (y + START_Y) * (n-milieu)/10 + offset;
 }

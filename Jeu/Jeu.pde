@@ -134,7 +134,7 @@ void draw() {
 void serialEvent(Serial p) { ////COde qui verifie la note 
   String[] StrNote = {"DO", "RE", "MI", "FA", "SOL", "LA", "SI", "DO"};
 
-  for (int i = 0; i < 8; i += 2) {
+  for (int i = 0; i < 16; i += 2) {
     float frequence = 261.63 * pow(2, i / 12.0);
     int frequence_arrondie = int(round(frequence));
     
