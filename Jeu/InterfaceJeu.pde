@@ -35,6 +35,9 @@ void dessinerJeu(){
     for(Notes note : touche){
         if (note.move()) {
             notesToRemove.add(note);
+            if(note.touche){
+                sonNotePastouche();
+            }
         }   
     }
 

@@ -94,6 +94,7 @@ void setup() {
 }
 
 void draw() {
+  sonAmbiance();
   background(255);
   ellipse(x, y, 50, 50);  
   line(0, FIN_LIGNE + W_RECT, 500, FIN_LIGNE + W_RECT); 
