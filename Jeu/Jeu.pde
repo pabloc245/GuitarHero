@@ -8,7 +8,7 @@ final float TEMPO = 32;
 final int NB_NOTES = 8;
 final float LIGNESX = 80;
 final float START_Y = 150;
-final float[] lNote = {6, 7, 1, 2, 3, 4, 5};
+final int[] lNote = {6, 7, 1, 2, 3, 4, 5};
 final int START_X = 300;
 final float FIN_LIGNE = 600;
 final int H_RECT = 18;
@@ -16,7 +16,7 @@ final int W_RECT = 20;
 final int VITESSE = 6;
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
-float[] noteValue = {261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25}; 
+int[] noteValue = {262, 294, 330, 349, 392, 440, 494, 523}; 
 int ecranActif = MENU;
 boolean partieEnCours = false;
 
@@ -135,15 +135,17 @@ void draw() {
 
 void serialEvent(Serial p) { ////COde qui verifie la note 
   String[] StrNote = {"DO", "RE", "MI", "FA", "SOL", "LA", "SI", "DO"};
-
-  for (int i = 0; i < noteValue.length; i++) {
-    float note = noteValue[i];
-    int val = readUSBPort(); 
-
-    if (val >= note - 10 && val <= note + 10) {
-      testKey((int)lNote[i]);
-      println(StrNote[i]);/// affichage de verification
-    }
+  int val = readUSBPort(); 
+  if(val > 0){
+    for (int i = 0; i < noteValue.length; i++) {
+      float note = noteValue[i];
+      
+      if (val > (note - 10) && val < (note + 10)) {
+        testKey(i+1);
+        println(StrNote[i]);/// affichage de verification
+       
+      }
+    }    
   }
 }
 
@@ -159,13 +161,16 @@ void keyPressed() {
       periode -= 5;
       break;
     case 65: //'a'
-      testKey((int)lNote[1]);
+      testKey(1);
       break;
     case 90://'z'
-      testKey((int)lNote[2]);
+      testKey(2);
       break;
     case 69://'e'
-      testKey((int)lNote[3]);
+      testKey(3);
+      break;
+    case 82://'r'
+      testKey(4);
       break;
   }
 }

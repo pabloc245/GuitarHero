@@ -18,9 +18,11 @@ class Notes{
         this.octave = octave;
         this.duree = duree;
         this.alteration = alteration;
-        this.n = n-64;
-        this.x = lNote[this.n ]* START_X;
+        println(n);
+        this.n = lNote[n-65];
+        this.x = n * START_X;
         this.h = h*duree;
+        println(this.n);
     }
     double easeInSine(float x){
         return 1 - Math.pow(1 - x, 4);
@@ -31,7 +33,7 @@ class Notes{
         if(y < FIN_LIGNE){
             float centre = 500;
             x = f(y, n);
-            r = sqrt(y*4);
+            r += (int)r < 45 ?  0.1 : 0; //sqrt(y*4);
             y += (y+80) / FIN_LIGNE * 3;
             //y+=2;
 

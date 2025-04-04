@@ -25,6 +25,7 @@ void dessinerJeu(){
                     note.y = 0;
                     note.touched = false;
                     note.x = note.n * START_X;
+                    note.r = 10;
                 }
                 touche.clear();
                 println("fin de la melodie");
@@ -45,7 +46,7 @@ void dessinerJeu(){
 }
 
 float f(float y, int n){// Pour determiner x
-    float offset = START_X + 2 * lNote[n];
+    float offset = START_X + 2 * n;
     int milieu = NB_NOTES/2;
     return (y + START_Y) * (n-milieu)/10 + offset;
 }
