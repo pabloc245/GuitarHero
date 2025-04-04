@@ -73,8 +73,8 @@ void setup() {
   noFill();
   stroke(0, 0, 0);
   println("Framerate: " + frameRate);
-  for(int i; i > Serial.list().length; i++){
-    println(Serial.list()[i]);
+  for(int i=0; i < Serial.list().length; i++){
+    println("Port" + i + ": " +Serial.list()[i]);
   }
 
   if(Serial.list().length>0){
@@ -85,17 +85,13 @@ void setup() {
       println("Erreur : Le port " + Serial.list()[0] + " est déjà utilisé ou inaccessible.");
     }
   }else{
-    println("pas d'instrument connecté");
+    println("pas d'instrument connecte");
   }
 
   Partition partition = new Partition("text.abc");
   partition.clean();
   partition.metaData();
   active = partition.lecture();
-  print("Touche:");
-  for(Notes note : active){
-    note.printN();
-  }
   
 }
 
