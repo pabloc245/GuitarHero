@@ -114,7 +114,7 @@ class Partition{
                     octave = octave(i, ca, alteration, octave);
                     //time(i, ca, alteration, octave-1, lNote);
     
-                    println("Note spe: " + ca[i] + ", " + alteration + ", " + octave + ", " + duree[0]/duree[1]);
+                    //println("Note spe: " + ca[i] + ", " + alteration + ", " + octave + ", " + duree[0]/duree[1]);
                     tempNote = new Notes(ca[i], octave, duree[0]/duree[1], alteration);     
 
                 }

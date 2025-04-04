@@ -16,6 +16,7 @@ final int W_RECT = 20;
 final int VITESSE = 6;
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
+float[] noteValue = {261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25}; 
 int ecranActif = MENU;
 boolean partieEnCours = false;
 
@@ -74,7 +75,7 @@ void setup() {
   stroke(0, 0, 0);
   println("Framerate: " + frameRate);
   for(int i=0; i < Serial.list().length; i++){
-    println("Port" + i + ": " +Serial.list()[i]);
+    println("Port" + i + ": " + Serial.list()[i]);
   }
 
   if(Serial.list().length>0){
@@ -135,14 +136,12 @@ void draw() {
 void serialEvent(Serial p) { ////COde qui verifie la note 
   String[] StrNote = {"DO", "RE", "MI", "FA", "SOL", "LA", "SI", "DO"};
 
-  for (int i = 0; i < 16; i += 2) {
-    float frequence = 261.63 * pow(2, i / 12.0);
-    int frequence_arrondie = int(round(frequence));
-    
+  for (int i = 0; i < noteValue.length; i++) {
+    float note = noteValue[i];
     int val = readUSBPort(); 
 
-    if (val >= frequence_arrondie - 10 && val <= frequence_arrondie + 10) {
-      testKey(i);
+    if (val >= note - 10 && val <= note + 10) {
+      testKey((int)lNote[i]);
       println(StrNote[i]);/// affichage de verification
     }
   }
@@ -160,13 +159,13 @@ void keyPressed() {
       periode -= 5;
       break;
     case 65: //'a'
-      testKey(1);
+      testKey((int)lNote[1]);
       break;
     case 90://'z'
-      testKey(2);
+      testKey((int)lNote[2]);
       break;
     case 69://'e'
-      testKey(3);
+      testKey((int)lNote[3]);
       break;
   }
 }
