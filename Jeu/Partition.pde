@@ -25,7 +25,7 @@ class Partition{
             if (!ligne.contains("w:") && !ligne.contains("%") && !ligne.contains("W:")) {
               filteredLines.append(ligne);
             }
-            ligne.replaceAll(".*![A-Za-z]+!*.", "");
+            //ligne.replaceAll(""[^"]*", "");
         }
         
         PrintWriter output = createWriter(filename);
@@ -193,7 +193,8 @@ void time(int i, char[] ca, int octave, float lNote[]){
                 if(ca[i+2+abs(octave)] == '/'){
                     lNote[1] = ca[i+3+abs(octave)] - '0';
                 }
-        }else if(ca[i+1+abs(octave)]=='/' && ca[i+1+abs(octave)] >= '0' && ca[i+1+abs(octave)] <= '9'){
+        }else if(ca[i+1+abs(octave)]=='/' && ca[i+2+abs(octave)] >= '0' && ca[i+2+abs(octave)] <= '9'){
+            println("fraction");
             lNote[1] = ca[i+2+abs(octave)] - '0';
         }
     }

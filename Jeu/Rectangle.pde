@@ -1,10 +1,11 @@
 class Notes{
-    float y = LIGNEY;
+    float y;
     float x = LIGNESX;
     float w = W_RECT;
     float h = H_RECT;
+    float r = 4;
     boolean touched;
-    char n;
+    int n;
     int octave = 1;
     int alteration = 0;// 1 = #(diese); 2 = xb(bemol)
     float duree =1;
@@ -17,14 +18,22 @@ class Notes{
         this.octave = octave;
         this.duree = duree;
         this.alteration = alteration;
-        this.n = n;
-        this.x = (n-64)*x;
+        this.n = n-64;
+        this.x = this.n * START_X;
         this.h = h*duree;
+    }
+    double easeInSine(float x){
+        return 1 - Math.pow(1 - x, 4);
+      
     }
 
     boolean move(){     
         if(y < FIN_LIGNE){
-            y += VITESSE;
+            float centre = 500;
+            x = f(y, n);
+            r = (float) easeInSine(y)+20;
+            y += (y+80) / FIN_LIGNE * 3;
+            //y+=2;
 
             pushMatrix(); // Sauvegarde l'état graphique
             pushStyle(); 
@@ -33,7 +42,8 @@ class Notes{
             }else{
                 fill(204, 102, 0);
             }
-            rect(x, y, w, h);
+            //rect(x, y, w, h);
+            ellipse(x, y, r, r*0.6);
 
             popStyle();   // Restaure les attributs de style
             popMatrix();  
@@ -43,6 +53,7 @@ class Notes{
             //println();
             return false;
         }else{
+            println("delete");
             return true;
         }
     }

@@ -1,17 +1,18 @@
 import processing.serial.*;
 // 1. DÉCLARATION DES CONSTANTES
-//COORDONNE GRAPHIQUE
+//Menu
 final int MENU = 0;
 final int POS_MENU = 190;
 
 final float TEMPO = 32;
-
+final int NB_NOTES = 8;
 final float LIGNESX = 80;
-final float LIGNEY = 30;
+final float START_Y = 150;
+final float START_X = 300;
 final float FIN_LIGNE = 600;
-final int H_RECT = 20;
+final int H_RECT = 18;
 final int W_RECT = 20;
-final int VITESSE = 2;
+final int VITESSE = 6;
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
 int ecranActif = MENU;
@@ -46,6 +47,7 @@ ArrayList<Notes> touche = new ArrayList<>();
 ArrayList<Notes> active = new ArrayList<>();
 ArrayList<Notes> notesToRemove = new ArrayList<>();
 
+
 // 4. RESSOURCES
 
 
@@ -71,14 +73,14 @@ void setup() {
   stroke(0, 0, 0);
   println("Framerate: " + frameRate);
 
-  if(Serial.list().length>0 ){
+  if(Serial.list().length>0){
     try{
       myPort = new Serial(this, Serial.list()[0], 9600);
+      println("Connection au port: " + Serial.list()[0]);
     } catch (Exception e) {
       println("Erreur : Le port " + Serial.list()[0] + " est déjà utilisé ou inaccessible.");
     }
   }
-
 
   Partition partition = new Partition("text.abc");
   partition.clean();
@@ -128,9 +130,22 @@ void draw() {
   }
 }
 
-void serialEvent(Serial p) { 
-  println(readUSBPort());
-} 
+void serialEvent(Serial p) { ////COde qui verifie la note 
+  String[] StrNote = {"DO", "RE", "MI", "FA", "SOL", "LA", "SI", "DO"};
+
+  for (int i = 0; i < 8; i += 2) {
+    float frequence = 261.63 * pow(2, i / 12.0);
+    int frequence_arrondie = int(round(frequence));
+    
+    int val = readUSBPort(); 
+
+    if (val >= frequence_arrondie - 10 && val <= frequence_arrondie + 10) {
+      testKey(i);
+      println(StrNote[i]);
+    }
+  }
+}
+
 
 void keyPressed() {
   switch (keyCode) {
@@ -141,21 +156,21 @@ void keyPressed() {
       periode -= 5;
       break;
     case 65: //'a'
-      testKey('A');
+      testKey(1);
       break;
     case 90://'z'
-      testKey('B');
+      testKey(2);
       break;
     case 69://'e'
-      testKey('C');
+      testKey(3);
       break;
   }
 }
 
-void testKey(char noteeee){
+void testKey(int noteeee){
   println("Note: " + noteeee);
-  for (Notes note : touche) {
-    if (note.y > FIN_LIGNE-40 && note.n==noteeee) {
+  for (Notes note : active) {
+    if (note.y > FIN_LIGNE - note.r - 25 && note.n==noteeee) {
       println(note.n);
       note.touched = true;
     }   
