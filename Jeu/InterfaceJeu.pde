@@ -16,7 +16,6 @@ void dessinerJeu(){
 
             if(z+1 < active.size()){
                 fact = active.get(z+1).duree;
-                println("fact2: " + fact);
             }
             
             z++;

@@ -73,7 +73,7 @@ void setup() {
   noFill();
   stroke(0, 0, 0);
   println("Framerate: " + frameRate);
-  for(int i, i > Serial.list().length; i++){
+  for(int i; i > Serial.list().length; i++){
     println(Serial.list()[i]);
   }
 
@@ -96,7 +96,7 @@ void setup() {
   for(Notes note : active){
     note.printN();
   }
-
+  
 }
 
 void draw() {
