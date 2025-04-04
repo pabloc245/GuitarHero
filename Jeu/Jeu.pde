@@ -73,6 +73,9 @@ void setup() {
   noFill();
   stroke(0, 0, 0);
   println("Framerate: " + frameRate);
+  for(int i, i > Serial.list().length; i++){
+    println(Serial.list()[i]);
+  }
 
   if(Serial.list().length>0){
     try{
@@ -81,6 +84,8 @@ void setup() {
     } catch (Exception e) {
       println("Erreur : Le port " + Serial.list()[0] + " est déjà utilisé ou inaccessible.");
     }
+  }else{
+    println("pas d'instrument connecté");
   }
 
   Partition partition = new Partition("text.abc");

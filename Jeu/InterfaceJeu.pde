@@ -1,11 +1,14 @@
 void dessinerJeu(){
+    ///GRAPHIQUE
     for(int i = 1; i < 10; i++){
         line(f(0.0, i),
         80 / FIN_LIGNE * 3, 
         f(FIN_LIGNE, i), 
         FIN_LIGNE);
     }
-        
+    
+    
+    ///GESTION DES NOTES
     if(frameCount % (TEMPO*fact) == 0){
         if(!(z+1 > active.size())){
             touche.add(active.get(z)); 
