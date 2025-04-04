@@ -22,7 +22,7 @@ void dessinerJeu(){
                 for(Notes note : active){
                     note.y = 0;
                     note.touched = false;
-                    note.x = note.n * START_X;;
+                    note.x = note.n * START_X;
                 }
                 touche.clear();
                 println("fin de la melodie");

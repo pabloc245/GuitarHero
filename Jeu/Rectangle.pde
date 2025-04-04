@@ -3,7 +3,7 @@ class Notes{
     float x = LIGNESX;
     float w = W_RECT;
     float h = H_RECT;
-    float r = 4;
+    float r = 5;
     boolean touched;
     int n;
     int octave = 1;
@@ -19,7 +19,7 @@ class Notes{
         this.duree = duree;
         this.alteration = alteration;
         this.n = n-64;
-        this.x = this.n * START_X;
+        this.x = lNote[this.n ]* START_X;
         this.h = h*duree;
     }
     double easeInSine(float x){
@@ -31,7 +31,7 @@ class Notes{
         if(y < FIN_LIGNE){
             float centre = 500;
             x = f(y, n);
-            r = (float) easeInSine(y)+20;
+            r = sqrt(y*4);
             y += (y+80) / FIN_LIGNE * 3;
             //y+=2;
 
