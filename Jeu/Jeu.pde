@@ -141,10 +141,12 @@ void serialEvent(Serial p) { ////COde qui verifie la note
 
     if (val >= frequence_arrondie - 10 && val <= frequence_arrondie + 10) {
       testKey(i);
-      println(StrNote[i]);
+      println(StrNote[i]);/// affichage de verification
     }
   }
 }
+
+
 
 
 void keyPressed() {
