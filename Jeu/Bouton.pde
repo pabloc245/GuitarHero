@@ -20,6 +20,8 @@ class Bouton{
         noFill();
     }
     boolean clic(){
-        return mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;   
+        
+        return mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
     }
+
 }

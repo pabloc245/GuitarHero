@@ -1,11 +1,22 @@
 void dessinerJeu(){
     ///GRAPHIQUE
     for(int i = 1; i < 10; i++){
+        if(touched[i]){
+            stroke(couleurLignes[i]);
+        }
         line(f(0.0, i),
-        80 / FIN_LIGNE * 3, 
+        80 / FIN_LIGNE * 3 + START_Y, 
         f(FIN_LIGNE, i), 
         FIN_LIGNE);
+        stroke(0, 0, 0);  
     }
+    
+    if(titreChanson !=null ){
+        
+        text(titreChanson, width/2, height-30);
+    }
+    line(200, FIN_LIGNE, 760, FIN_LIGNE); 
+    
     
     
     ///GESTION DES NOTES
@@ -48,5 +59,5 @@ void dessinerJeu(){
 float f(float y, int n){// Pour determiner x
     float offset = START_X + 2 * n;
     int milieu = NB_NOTES/2;
-    return (y + START_Y) * (n-milieu)/10 + offset;
+    return (y + LIGNESX) * (n-milieu)/10 + offset;
 }

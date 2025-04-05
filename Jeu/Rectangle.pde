@@ -1,9 +1,7 @@
 class Notes{
-    float y;
+    float y = START_Y;
     float x = LIGNESX;
-    float w = W_RECT;
-    float h = H_RECT;
-    float r = 5;
+    float r = RAYON;
     boolean touched;
     int n;
     int octave = 1;
@@ -21,7 +19,6 @@ class Notes{
         println(n);
         this.n = lNote[n-65];
         this.x = n * START_X;
-        this.h = h*duree;
         println(this.n);
     }
     double easeInSine(float x){
@@ -30,29 +27,21 @@ class Notes{
     }
 
     boolean move(){     
-        if(y < FIN_LIGNE){
+        if(y < FIN_LIGNE - MAX_RAYON * 0.6){
             float centre = 500;
             x = f(y, n);
-            r += (int)r < 45 ?  0.1 : 0; //sqrt(y*4);
+            r += r < MAX_RAYON ?  0.1 : 0;
             y += (y+80) / FIN_LIGNE * 3;
-            //y+=2;
 
-            pushMatrix(); // Sauvegarde l'état graphique
-            pushStyle(); 
+
             if(!touched){
                 noFill();
             }else{
-                fill(204, 102, 0);
+                fill(254, 0, 0);
             }
-            //rect(x, y, w, h);
             ellipse(x, y, r, r*0.6);
 
-            popStyle();   // Restaure les attributs de style
-            popMatrix();  
-
             noFill();
-            //println("Note: " + n + " x: "+ x + " y: " + y );
-            //println();
             return false;
         }else{
             println("delete");

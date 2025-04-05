@@ -4,16 +4,17 @@ import processing.serial.*;
 final int MENU = 0;
 final int POS_MENU = 190;
 
-final float TEMPO = 32;
-final int NB_NOTES = 8;
 final float LIGNESX = 80;
-final float START_Y = 150;
-final int[] lNote = {6, 7, 1, 2, 3, 4, 5};
-final int START_X = 300;
+final float START_Y = 0;
+final int START_X = 400;
 final float FIN_LIGNE = 600;
-final int H_RECT = 18;
-final int W_RECT = 20;
+final float MAX_RAYON = 50;
 final int VITESSE = 6;
+final float RAYON =5; 
+
+final int NB_NOTES = 8;
+final float TEMPO = 32;
+final int[] lNote = {6, 7, 1, 2, 3, 4, 5};
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
 int[] noteValue = {262, 294, 330, 349, 392, 440, 494, 523}; 
@@ -23,7 +24,8 @@ boolean partieEnCours = false;
 // 3. VARIABLES UI REGROUPÉES PAR FONCTION
 
 // Interface Menu
-String[] textesBoutons = {"Jouer", "Options", "Quitter"};
+int newNote = 0; 
+int lastNote;
 color couleurBouton = color(0, 0, 0);
 Bouton[] BoutonMenu = {
   new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
@@ -42,9 +44,24 @@ Bouton[] BoutonMenu = {
 // G : Sol
 
 // Interface Jeu
+color couleurTitre = color(0, 0, 0);
+color[] couleurLignes = {
+  color(255, 50, 50), 
+  color(50, 255, 100), 
+  color(255, 255, 50), 
+  color(50, 200, 255), 
+  color(200, 50, 255), 
+  color(255, 120, 40), 
+  color(255, 60, 160), 
+  color(0, 255, 255),
+  color(255, 0, 200),
+  color(255, 0, 200)
+};
 
+boolean[] touched = new boolean[10]; 
 float fact = 1;
 Joueur joueur1;
+String titreChanson;
 ArrayList<Notes> touche = new ArrayList<>();
 ArrayList<Notes> active = new ArrayList<>();
 ArrayList<Notes> notesToRemove = new ArrayList<>();
@@ -88,36 +105,24 @@ void setup() {
   }else{
     println("pas d'instrument connecte");
   }
-
   Partition partition = new Partition("text.abc");
   partition.clean();
   partition.metaData();
+  titreChanson = partition.title; 
   active = partition.lecture();
   
 }
 
 void draw() {
-  background(255);
-  ellipse(x, y, 50, 50);  
-  line(0, FIN_LIGNE + W_RECT, 500, FIN_LIGNE + W_RECT); 
-  
-  x += speedX;
-  y += speedY;
+  background(255);  
 
-  if (x > width - 25 || x < 25) {
-    speedX *= -1;
+  if(newNote != lastNote){
+    println("new: "+ newNote);
+    println("last: "+ lastNote);
+    resetLigne();
+    lastNote = newNote;
+    println("ne note");
   }
-  if (y > height - 25 || y < 25) {
-    speedY *= -1;
-  }
-
-  beginShape();
-  for (int x = 0; x < width; x++) {
-    float y = height/2 + amplitude * sin(x * TWO_PI / periode);
-    vertex(x, y);
-  }
-  endShape();
-
   
 
   switch(ecranActif) {
@@ -133,23 +138,33 @@ void draw() {
   }
 }
 
-void serialEvent(Serial p) { ////COde qui verifie la note 
-  String[] StrNote = {"DO", "RE", "MI", "FA", "SOL", "LA", "SI", "DO"};
+void serialEvent(Serial p){
+  String[] strNote = {"DO","RE","MI","FA","SOL","LA","SI","DO"};
+  int val = checkNote();
+  newNote = val > 0 ? val : newNote;
+  if(ecranActif != 0){
+    testKey(newNote);
+    //println(StrNote[newNote]);/// affichage de verification 
+  }else{
+    ecranActif = newNote < 3 ? newNote : 0;
+    //println("ecran: " + i);
+  }
+
+}
+
+int checkNote(){
   int val = readUSBPort(); 
   if(val > 0){
     for (int i = 0; i < noteValue.length; i++) {
       float note = noteValue[i];
       
       if (val > (note - 10) && val < (note + 10)) {
-        testKey(i+1);
-        println(StrNote[i]);/// affichage de verification
-       
+        return i;
       }
-    }    
+    } 
   }
+  return -1;
 }
-
-
 
 
 void keyPressed() {
@@ -176,12 +191,22 @@ void keyPressed() {
 }
 
 void testKey(int noteeee){
-  println("Note: " + noteeee);
+  touched[noteeee]=true;
   for (Notes note : active) {
     if (note.y > FIN_LIGNE - note.r - 25 && note.n==noteeee) {
-      println(note.n);
       note.touched = true;
     }   
+  }
+}
+void keyReleased() {
+  resetLigne();
+
+}
+
+void resetLigne(){
+  //println("released");
+  for (int i = 0; i < touched.length; i++) {
+    touched[i] = false;
   }
 }
 
@@ -191,8 +216,31 @@ void mousePressed(){
 
 void evenmentBouton(){
   int numeroBouton;
-  for(int i=0; i < 3; i++){
-    ecranActif = BoutonMenu[i].clic() ? i : ecranActif;
-  }
-  println("Bouton" + ecranActif);
+  if(ecranActif==0){
+    for(int i=0; i < 3; i++){
+      ecranActif = BoutonMenu[i].clic() ? i : ecranActif;
+    }
+    println("Bouton" + ecranActif);
+  }    
 }
+
+
+
+  // ellipse(x, y, 50, 50);  
+  
+  // x += speedX;
+  // y += speedY;
+
+  // if (x > width - 25 || x < 25) {
+  //   speedX *= -1;
+  // }
+  // if (y > height - 25 || y < 25) {
+  //   speedY *= -1;
+  // }
+  // 
+  // beginShape();
+  // for (int x = 0; x < width; x++) {
+  //   float y = height/2 + amplitude * sin(x * TWO_PI / periode);
+  //   vertex(x, y);
+  // }
+  // endShape();
