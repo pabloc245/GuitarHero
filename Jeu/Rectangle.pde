@@ -16,10 +16,8 @@ class Notes{
         this.octave = octave;
         this.duree = duree;
         this.alteration = alteration;
-        println(n);
         this.n = lNote[n-65];
         this.x = n * START_X;
-        println(this.n);
     }
     double easeInSine(float x){
         return 1 - Math.pow(1 - x, 4);
@@ -82,10 +80,9 @@ class Notes{
         }else if(alteration<0){
             print(this.duree+s+"b"+" ");
         }else{
-            print(this.duree+s+" ");
+            print(this.duree+" ");
         }
         
-        //println();
     }
 
 }

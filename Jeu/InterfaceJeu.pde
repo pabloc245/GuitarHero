@@ -12,8 +12,10 @@ void dessinerJeu(){
     }
     
     if(titreChanson !=null ){
-        
-        text(titreChanson, width/2, height-30);
+        textSize(15);
+        fill(0,0,0);
+        text("Titre: " + titreChanson, width-(titreChanson.length()+ 7)*4, 25);
+        noFill();
     }
     line(200, FIN_LIGNE, 760, FIN_LIGNE); 
     

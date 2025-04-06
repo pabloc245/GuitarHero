@@ -10,11 +10,13 @@ final int START_X = 400;
 final float FIN_LIGNE = 600;
 final float MAX_RAYON = 50;
 final int VITESSE = 6;
-final float RAYON =5; 
+final float RAYON = 5; 
 
 final int NB_NOTES = 8;
-final float TEMPO = 32;
+final float TEMPO = 30;
 final int[] lNote = {6, 7, 1, 2, 3, 4, 5};
+
+
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
 int[] noteValue = {262, 294, 330, 349, 392, 440, 494, 523}; 
@@ -67,6 +69,11 @@ ArrayList<Notes> active = new ArrayList<>();
 ArrayList<Notes> notesToRemove = new ArrayList<>();
 
 
+float posY = 400;
+float posX = 100;
+float tailleFont = 0;
+float opacitiy = 0;
+boolean animating = true;
 // 4. RESSOURCES
 
 
@@ -99,6 +106,9 @@ void setup() {
     try{
       myPort = new Serial(this, Serial.list()[0], 9600);
       println("Connection au port: " + Serial.list()[0]);
+      float tempo1 = (1/(frameRate/TEMPO))*1000;
+      println("temp: " + tempo1);
+      myPort.write(str(tempo1));
     } catch (Exception e) {
       println("Erreur : Le port " + Serial.list()[0] + " est déjà utilisé ou inaccessible.");
     }
@@ -110,7 +120,6 @@ void setup() {
   partition.metaData();
   titreChanson = partition.title; 
   active = partition.lecture();
-  
 }
 
 void draw() {
@@ -124,7 +133,7 @@ void draw() {
     println("ne note");
   }
   
-
+  animation("+5");
   switch(ecranActif) {
     case 0:
       dessinerMenu();
@@ -135,6 +144,29 @@ void draw() {
     case 2:
       dessinerOptions();
       break;    
+  }
+}
+
+void animation(String points){
+  if (animating) {
+    posY = lerp(posY, 150, 0.1);
+    tailleFont = lerp(tailleFont, 30, 0.1);
+    opacitiy += 2;
+    if (opacitiy > 255) opacitiy = 255;
+
+    fill(0, 255, 0, opacitiy);
+    textSize(tailleFont);
+    text(points, posX, posY);
+    noFill();
+
+    // Condition d'arrêt 
+    if (abs(posY - 0) < 151 && abs(tailleFont - 30) < 0.5 ) {
+      println("fin animation");
+      posY = 400;
+      posX = 100;
+      tailleFont = 0;
+      opacitiy = 0;
+    }
   }
 }
 

@@ -73,7 +73,6 @@ class Partition{
                     }
                     break;
             }
-            println(i);
             i++;
         }
         start = i;
@@ -112,7 +111,7 @@ class Partition{
 
                     alteration = alteration(i, ca);
                     octave = octave(i, ca, alteration, octave);
-                    //time(i, ca, alteration, octave-1, lNote);
+                    time(i, ca, octave-1, duree);
     
                     //println("Note spe: " + ca[i] + ", " + alteration + ", " + octave + ", " + duree[0]/duree[1]);
                     tempNote = new Notes(ca[i], octave, duree[0]/duree[1], alteration);     
@@ -120,7 +119,6 @@ class Partition{
                 }
 
                 if(ca[i]==':'){
-                    println("Copie de la liste");
                     listeNote.addAll(tempListe);
                     tempListe.clear();
                     stop = !stop;
@@ -134,10 +132,10 @@ class Partition{
                     }                    
                 }            
             
-            }         
+            }     
+            println("fin de lecture");      
         }
 
-        println();
         for (Notes note : listeNote) {
             note.printN();   
         }
@@ -194,7 +192,6 @@ void time(int i, char[] ca, int octave, float lNote[]){
                     lNote[1] = ca[i+3+abs(octave)] - '0';
                 }
         }else if(ca[i+1+abs(octave)]=='/' && ca[i+2+abs(octave)] >= '0' && ca[i+2+abs(octave)] <= '9'){
-            println("fraction");
             lNote[1] = ca[i+2+abs(octave)] - '0';
         }
     }
