@@ -8,12 +8,12 @@ void dessinerJeu(){
         80 / FIN_LIGNE * 3 + START_Y, 
         f(FIN_LIGNE, i), 
         FIN_LIGNE);
-        stroke(0, 0, 0);  
+        stroke(blanc);  
     }
     
     if(titreChanson !=null ){
         textSize(15);
-        fill(0,0,0);
+        fill(blanc);
         text("Titre: " + titreChanson, width-(titreChanson.length()+ 7)*4, 25);
         noFill();
     }

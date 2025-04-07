@@ -28,7 +28,10 @@ boolean partieEnCours = false;
 // Interface Menu
 int newNote = 0; 
 int lastNote;
-color couleurBouton = color(0, 0, 0);
+color blanc = color(204, 204, 204);
+color vert = color(78, 201, 176);
+color rouge = color(125, 12, 15);
+color couleurBouton = blanc;
 Bouton[] BoutonMenu = {
   new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
   new Bouton(300, POS_MENU + 65, 200, 50, couleurBouton, "Options"),
@@ -47,6 +50,8 @@ Bouton[] BoutonMenu = {
 
 // Interface Jeu
 color couleurTitre = color(0, 0, 0);
+color couleurFond = color(31, 31, 31);
+
 color[] couleurLignes = {
   color(255, 50, 50), 
   color(50, 255, 100), 
@@ -74,6 +79,7 @@ float posX = 100;
 float tailleFont = 0;
 float opacitiy = 0;
 boolean animating = true;
+ArrayList<String> animationQueue = new ArrayList<String>();
 // 4. RESSOURCES
 
 
@@ -91,12 +97,11 @@ float periode = 50;
 Serial myPort; 
 
 
+///SETUP
 void setup() {
   size(900, 700);  
-  background(255);
   textAlign(CENTER, CENTER);
   noFill();
-  stroke(0, 0, 0);
   println("Framerate: " + frameRate);
   for(int i=0; i < Serial.list().length; i++){
     println("Port" + i + ": " + Serial.list()[i]);
@@ -120,10 +125,13 @@ void setup() {
   partition.metaData();
   titreChanson = partition.title; 
   active = partition.lecture();
+  animationQueue.add("+5");
 }
 
+
+///DRAW
 void draw() {
-  background(255);  
+  background(couleurFond);
 
   if(newNote != lastNote){
     println("new: "+ newNote);
@@ -133,7 +141,12 @@ void draw() {
     println("ne note");
   }
   
-  animation("+5");
+  if(!animationQueue.isEmpty()){
+    animation(animationQueue.get(0));
+  }
+    
+
+
   switch(ecranActif) {
     case 0:
       dessinerMenu();
@@ -149,23 +162,23 @@ void draw() {
 
 void animation(String points){
   if (animating) {
-    posY = lerp(posY, 150, 0.1);
-    tailleFont = lerp(tailleFont, 30, 0.1);
+    posY = lerp(posY, 150, 0.3);
+    tailleFont = lerp(tailleFont, 30, 0.2);
     opacitiy += 2;
     if (opacitiy > 255) opacitiy = 255;
 
-    fill(0, 255, 0, opacitiy);
+    fill(vert, opacitiy);
     textSize(tailleFont);
     text(points, posX, posY);
     noFill();
 
     // Condition d'arrêt 
     if (abs(posY - 0) < 151 && abs(tailleFont - 30) < 0.5 ) {
-      println("fin animation");
       posY = 400;
       posX = 100;
       tailleFont = 0;
       opacitiy = 0;
+      animationQueue.remove(0);
     }
   }
 }
@@ -222,12 +235,24 @@ void keyPressed() {
   }
 }
 
+
+
 void testKey(int noteeee){
   touched[noteeee]=true;
-  for (Notes note : active) {
+  boolean hit=false;
+  for (Notes note : touche) {
     if (note.y > FIN_LIGNE - note.r - 25 && note.n==noteeee) {
       note.touched = true;
+      hit=true;
+      println("toucher");
     }   
+  }
+  if(ecranActif==1){
+    if(hit){
+      animationQueue.add("+5");
+    }else{
+      animationQueue.add("-5");
+    }
   }
 }
 void keyReleased() {

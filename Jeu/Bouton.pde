@@ -1,7 +1,7 @@
 class Bouton{
     int x, y, w, h;
 
-    color Couleur;
+    color couleur;
     String txt;
 
     Bouton(int x, int y, int w, int h, color couleur, String txt){
@@ -9,14 +9,16 @@ class Bouton{
         this.y = y;
         this.w = w;
         this.h = h;
-        this.Couleur = couleur;
+        this.couleur = couleur;
         this.txt = txt;
     }
     void dessiner(){
+        stroke(couleur);
         rect(x, y, w, h, 3);
-        fill(Couleur);
+        fill(couleur);
         textSize(int(h*0.7));
-        text(txt, x + w/2, y + h/2, couleurBouton);
+        fill(couleur);
+        text(txt, x + w/2, y + h/2, couleur);
         noFill();
     }
     boolean clic(){

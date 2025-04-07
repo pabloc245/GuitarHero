@@ -35,7 +35,7 @@ class Notes{
             if(!touched){
                 noFill();
             }else{
-                fill(254, 0, 0);
+                fill(rouge);
             }
             ellipse(x, y, r, r*0.6);
 
