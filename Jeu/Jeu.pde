@@ -29,8 +29,8 @@ boolean partieEnCours = false;
 int newNote = 0; 
 int lastNote;
 color blanc = color(204, 204, 204);
-color vert = color(78, 201, 176);
-color rouge = color(125, 12, 15);
+color vert = color(76, 250, 154);
+color rouge = color(255, 17, 54);
 color couleurBouton = blanc;
 Bouton[] BoutonMenu = {
   new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
@@ -49,7 +49,7 @@ Bouton[] BoutonMenu = {
 // G : Sol
 
 // Interface Jeu
-color couleurTitre = color(0, 0, 0);
+color couleurTitre = blanc;
 color couleurFond = color(31, 31, 31);
 
 color[] couleurLignes = {
@@ -67,7 +67,7 @@ color[] couleurLignes = {
 
 boolean[] touched = new boolean[10]; 
 float fact = 1;
-Joueur joueur1;
+Joueur joueur1= new Joueur(0, 1);
 String titreChanson;
 ArrayList<Notes> touche = new ArrayList<>();
 ArrayList<Notes> active = new ArrayList<>();
@@ -125,7 +125,6 @@ void setup() {
   partition.metaData();
   titreChanson = partition.title; 
   active = partition.lecture();
-  animationQueue.add("+5");
 }
 
 
@@ -161,13 +160,15 @@ void draw() {
 }
 
 void animation(String points){
+  color couleur = points.equals("+5") ?  vert : rouge;
+
   if (animating) {
     posY = lerp(posY, 150, 0.3);
     tailleFont = lerp(tailleFont, 30, 0.2);
     opacitiy += 2;
     if (opacitiy > 255) opacitiy = 255;
 
-    fill(vert, opacitiy);
+    fill(couleur, opacitiy);
     textSize(tailleFont);
     text(points, posX, posY);
     noFill();
@@ -246,13 +247,6 @@ void testKey(int noteeee){
       hit=true;
       println("toucher");
     }   
-  }
-  if(ecranActif==1){
-    if(hit){
-      animationQueue.add("+5");
-    }else{
-      animationQueue.add("-5");
-    }
   }
 }
 void keyReleased() {
