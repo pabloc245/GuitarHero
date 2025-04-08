@@ -1,4 +1,6 @@
 import processing.serial.*;
+//music
+import ddf.minim.*;
 // 1. DÉCLARATION DES CONSTANTES
 //Menu
 final int MENU = 0;
