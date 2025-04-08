@@ -11,6 +11,7 @@ final float FIN_LIGNE = 600;
 final float MAX_RAYON = 50;
 final int VITESSE = 6;
 final float RAYON = 5; 
+final int MAX_SCORE = 300;
 
 final int NB_NOTES = 8;
 final float TEMPO = 30;
@@ -30,7 +31,7 @@ int newNote = 0;
 int lastNote;
 color blanc = color(204, 204, 204);
 color vert = color(78, 201, 176);
-color rouge = color(125, 12, 15);
+color rouge = color(250, 12, 75);
 color couleurBouton = blanc;
 Bouton[] BoutonMenu = {
   new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
@@ -67,7 +68,7 @@ color[] couleurLignes = {
 
 boolean[] touched = new boolean[10]; 
 float fact = 1;
-Joueur joueur1;
+Joueur joueur1 = new Joueur(2, 1);
 String titreChanson;
 ArrayList<Notes> touche = new ArrayList<>();
 ArrayList<Notes> active = new ArrayList<>();

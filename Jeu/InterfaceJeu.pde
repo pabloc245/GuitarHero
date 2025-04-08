@@ -1,14 +1,23 @@
 void dessinerJeu(){
     ///GRAPHIQUE
+    strokeWeight(1);
+    rect(10, 10, MAX_SCORE, 15, 13);
+    fill(blanc, 255);
+    rect(11, 10, joueur1.score, 14, 16);
+    textSize(15);
+    text("Sore: " + joueur1.score, 30, 50);
     for(int i = 1; i < 10; i++){
         if(touched[i]){
             stroke(couleurLignes[i]);
+            float r = random(10);
+            strokeWeight(r);
         }
         line(f(0.0, i),
         80 / FIN_LIGNE * 3 + START_Y, 
         f(FIN_LIGNE, i), 
         FIN_LIGNE);
         stroke(blanc);  
+        strokeWeight(2);
     }
     
     if(titreChanson !=null ){
@@ -51,6 +60,17 @@ void dessinerJeu(){
     for(Notes note : touche){
         if (note.move()) {
             notesToRemove.add(note);
+            if(ecranActif==1){
+                if(note.touched){
+                  animationQueue.add("+5");
+                  joueur1.score+=5;
+                }else{
+                  if(joueur1.score >= 0){
+                    joueur1.score -= 5;
+                    animationQueue.add("-5");
+                  } 
+                }
+              }
         }   
     }
 

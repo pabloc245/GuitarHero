@@ -1,14 +1,16 @@
 class Joueur{
 
     final int MAX_VIE= 5;
-    int point, niveau;
+    int score = 40;
+    int dificutle;
+    int niveau;
 
-    Joueur(int points, int niveau){
-        this.point = points;
+    Joueur(int dificutle, int niveau){
+        this.score = dificutle * 20; 
         this.niveau = niveau;
     }
     boolean enVie(){
-        if(point > 0){
+        if(score > 0){
             // Code si le joueur a des points
         }
         return true;
