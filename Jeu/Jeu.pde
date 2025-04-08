@@ -18,7 +18,8 @@ final int NB_NOTES = 8;
 final float TEMPO = 30;
 final int[] lNote = {6, 7, 1, 2, 3, 4, 5};
 
-
+//music
+Minim minim = new Minim(this);
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
 int[] noteValue = {262, 294, 330, 349, 392, 440, 494, 523}; 
