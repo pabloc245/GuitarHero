@@ -11,15 +11,12 @@ void dessinerJeu(){
             stroke(couleurLignes[i]);
             float r = random(10);
             strokeWeight(r);
-            float r = random(10);
-            strokeWeight(r);
         }
         line(f(0.0, i),
         80 / FIN_LIGNE * 3 + START_Y, 
         f(FIN_LIGNE, i), 
         FIN_LIGNE);
         stroke(blanc);  
-        strokeWeight(2);
         strokeWeight(2);
     }
     

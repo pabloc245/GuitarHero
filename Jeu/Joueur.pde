@@ -11,7 +11,6 @@ class Joueur{
     }
     boolean enVie(){
         if(score > 0){
-        if(score > 0){
             // Code si le joueur a des points
         }
         return true;

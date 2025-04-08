@@ -1,6 +1,8 @@
 import processing.serial.*;
 //music
 import ddf.minim.*;
+
+
 // 1. DÉCLARATION DES CONSTANTES
 //Menu
 final int MENU = 0;
@@ -20,7 +22,7 @@ final float TEMPO = 30;
 final int[] lNote = {6, 7, 1, 2, 3, 4, 5};
 
 //music
-Minim minim = new Minim(this);
+//Minim minim = new Minim(this);
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
 int[] noteValue = {262, 294, 330, 349, 392, 440, 494, 523}; 
@@ -37,6 +39,12 @@ color vert = color(76, 250, 154);
 color rouge = color(255, 17, 54);
 color couleurBouton = blanc;
 Bouton[] BoutonMenu = {
+  new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
+  new Bouton(300, POS_MENU + 65, 200, 50, couleurBouton, "Options"),
+  new Bouton(300, POS_MENU + 65*2, 200, 50, couleurBouton, "Quitter")
+};
+
+Bouton[] BoutonOption = {
   new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
   new Bouton(300, POS_MENU + 65, 200, 50, couleurBouton, "Options"),
   new Bouton(300, POS_MENU + 65*2, 200, 50, couleurBouton, "Quitter")
@@ -71,7 +79,7 @@ color[] couleurLignes = {
 
 boolean[] touched = new boolean[10]; 
 float fact = 1;
-Joueur joueur1= new Joueur(0, 1);
+Joueur joueur1= new Joueur(2, 1);
 String titreChanson;
 ArrayList<Notes> touche = new ArrayList<>();
 ArrayList<Notes> active = new ArrayList<>();
@@ -143,25 +151,12 @@ void draw() {
     lastNote = newNote;
     println("ne note");
   }
-  musiqueFond();
+  //musiqueFond();
   
   if(!animationQueue.isEmpty()){
     animation(animationQueue.get(0));
   }
-    
-
-
-  switch(ecranActif) {
-    case 0:
-      dessinerMenu();
-      break;
-    case 1:
-      dessinerJeu();
-      break;
-    case 2:
-      dessinerOptions();
-      break;    
-  }
+  menuePrincipal()
 }
 
 void animation(String points){
