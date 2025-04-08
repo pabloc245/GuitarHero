@@ -139,6 +139,7 @@ void draw() {
     lastNote = newNote;
     println("ne note");
   }
+  musiqueFond();
   
   if(!animationQueue.isEmpty()){
     animation(animationQueue.get(0));
