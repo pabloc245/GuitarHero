@@ -45,9 +45,8 @@ Bouton[] BoutonMenu = {
 };
 
 Bouton[] BoutonOption = {
-  new Bouton(300, POS_MENU, 200, 50, couleurBouton, "Jouer"),
-  new Bouton(300, POS_MENU + 65, 200, 50, couleurBouton, "Options"),
-  new Bouton(300, POS_MENU + 65*2, 200, 50, couleurBouton, "Quitter")
+  new Bouton(300, 400, 50, 50, couleurBouton, "+"),
+  new Bouton(400, 400, 50, 50, couleurBouton, "-")
 };
 
 //inutile mais on sait jamais
@@ -156,7 +155,7 @@ void draw() {
   if(!animationQueue.isEmpty()){
     animation(animationQueue.get(0));
   }
-  menuePrincipal()
+  menuePrincipal();
 }
 
 void animation(String points){
@@ -188,12 +187,14 @@ void serialEvent(Serial p){
   String[] strNote = {"DO","RE","MI","FA","SOL","LA","SI","DO"};
   int val = checkNote();
   newNote = val > 0 ? val : newNote;
-  if(ecranActif != 0){
+  if(ecranActif == 1){
     testKey(newNote);
     //println(StrNote[newNote]);/// affichage de verification 
-  }else{
+  }else if(ecranActif==0){
     ecranActif = newNote < 3 ? newNote : 0;
     //println("ecran: " + i);
+  }else if(ecranActif==2){
+    println("c'est bien");
   }
 
 }
@@ -249,6 +250,7 @@ void testKey(int noteeee){
     }   
   }
 }
+
 void keyReleased() {
   resetLigne();
 
@@ -268,10 +270,19 @@ void mousePressed(){
 void evenmentBouton(){
   int numeroBouton;
   if(ecranActif==0){
-    for(int i=0; i < 3; i++){
+    for(int i=0; i < BoutonMenu.length; i++){
       ecranActif = BoutonMenu[i].clic() ? i : ecranActif;
     }
     println("Bouton" + ecranActif);
+  }else if(ecranActif==2){
+    for(int i=0; i < BoutonOption.length; i++){
+      if(BoutonOption[i].clic() && i == 0){
+        joueur1.dificutle += 1;
+        println("bouton");
+      }else if(BoutonOption[i].clic() && i == 1){
+        joueur1.dificutle -= 1;
+      }
+    }
   }    
 }
 

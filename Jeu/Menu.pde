@@ -1,5 +1,5 @@
 void dessinerMenu(){
-    for(int i = 0; i<3; i++){
+    for(int i = 0; i < BoutonMenu.length; i++){
         BoutonMenu[i].dessiner();
     }
 }

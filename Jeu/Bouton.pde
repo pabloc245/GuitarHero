@@ -14,6 +14,7 @@ class Bouton{
     }
     void dessiner(){
         stroke(couleur);
+        noFill();
         rect(x, y, w, h, 3);
         fill(couleur);
         textSize(int(h*0.7));
@@ -22,7 +23,6 @@ class Bouton{
         noFill();
     }
     boolean clic(){
-        
         return mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
     }
 
