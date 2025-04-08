@@ -11,12 +11,15 @@ void dessinerJeu(){
             stroke(couleurLignes[i]);
             float r = random(10);
             strokeWeight(r);
+            float r = random(10);
+            strokeWeight(r);
         }
         line(f(0.0, i),
         80 / FIN_LIGNE * 3 + START_Y, 
         f(FIN_LIGNE, i), 
         FIN_LIGNE);
         stroke(blanc);  
+        strokeWeight(2);
         strokeWeight(2);
     }
     
@@ -60,6 +63,17 @@ void dessinerJeu(){
     for(Notes note : touche){
         if (note.move()) {
             notesToRemove.add(note);
+            if(ecranActif==1){
+                if(note.touched){
+                  animationQueue.add("+5");
+                  joueur1.score+=5;
+                }else{
+                  if(joueur1.score >= 0){
+                    joueur1.score -= 5;
+                    animationQueue.add("-5");
+                  } 
+                }
+              }
             if(ecranActif==1){
                 if(note.touched){
                   animationQueue.add("+5");
