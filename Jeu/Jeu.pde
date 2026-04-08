@@ -237,8 +237,6 @@ void keyPressed() {
   }
 }
 
-
-
 void testKey(int noteeee){
   touched[noteeee]=true;
   boolean hit=false;

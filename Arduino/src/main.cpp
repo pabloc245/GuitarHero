@@ -23,9 +23,11 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(2), rising, RISING);
   Serial.begin(9600);
   pinMode(13, OUTPUT);
+  Serial.println("attendre la frequence");
   while (Serial.available() == 0) {
   }
   int data = Serial.parseInt();  
+  Serial.println(data + "echo");
   MsTimer2::set(data, metronome); // Période de 1000 ms
   MsTimer2::start();
 }

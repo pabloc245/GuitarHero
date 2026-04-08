@@ -65,7 +65,7 @@ void dessinerJeu(){
                   animationQueue.add("+5");
                   joueur1.score+=5;
                 }else{
-                  if(joueur1.score >= 0){
+                  if(joueur1.score > 0){
                     joueur1.score -= 5;
                     animationQueue.add("-5");
                   } 
@@ -76,7 +76,7 @@ void dessinerJeu(){
                   animationQueue.add("+5");
                   joueur1.score+=5;
                 }else{
-                  if(joueur1.score >= 0){
+                  if(joueur1.score > 0){
                     joueur1.score -= 5;
                     animationQueue.add("-5");
                   } 
