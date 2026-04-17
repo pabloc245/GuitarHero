@@ -16,8 +16,13 @@ class Notes{
         this.octave = octave;
         this.duree = duree;
         this.alteration = alteration;
-        this.n = lNote[n-65];
-        this.x = n * START_X;
+        
+        // On convertit le caractère en index 0-7 proprement
+        this.n = lNote[n - 65]; 
+        
+        // CORRECTION : On utilise la fonction f() pour que la note 
+        // tombe dans la bonne colonne visuelle dès le début
+        this.x = f(0, this.n); 
     }
     double easeInSine(float x){
         return 1 - Math.pow(1 - x, 4);
