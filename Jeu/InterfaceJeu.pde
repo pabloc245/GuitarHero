@@ -57,36 +57,31 @@ void dessinerJeu(){
         }        
     }
    
-    for(Notes note : touche){
-        if (note.move()) {
-            notesToRemove.add(note);
-            if(ecranActif==1){
-                if(note.touched){
-                  animationQueue.add("+5");
-                  joueur1.score+=5;
-                }else{
-                  if(joueur1.score > 0){
-                    joueur1.score -= 5;
-                    animationQueue.add("-5");
-                  } 
-                }
-              }
-            if(ecranActif==1){
-                if(note.touched){
-                  animationQueue.add("+5");
-                  joueur1.score+=5;
-                }else{
-                  if(joueur1.score > 0){
-                    joueur1.score -= 5;
-                    animationQueue.add("-5");
-                  } 
-                }
-              }
-        }   
+for (Notes note : touche) {
+  if (note.move()) {
+    notesToRemove.add(note);
+    if (ecranActif == 1) {
+      if (note.touched) {
+        animationQueue.add("+5");
+        joueur1.score += 5;
+      } else {
+        if (joueur1.score > 0) {
+          joueur1.score -= 5;
+          animationQueue.add("-5");
+        }
+      }
     }
+  }
+}
 
     touche.removeAll(notesToRemove);
     notesToRemove.clear();
+    // --- AFFICHAGE DE LA FRÉQUENCE RÉELLE ---
+    fill(blanc); // Utilise la couleur blanche déjà définie [cite: 36]
+    textSize(20);
+    textAlign(LEFT);
+    // On affiche la valeur de la variable qu'on a mise à jour dans le draw()
+    text("Fréquence NE555: " + frequenceAffichee + " Hz", 20, height - 20);
 }
 
 float f(float y, int n){// Pour determiner x

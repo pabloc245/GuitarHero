@@ -16,6 +16,7 @@ final float MAX_RAYON = 50;
 final int VITESSE = 6;
 final float RAYON = 5; 
 final int MAX_SCORE = 300;
+final int DELAI_EXTINCTION = 10; // éteint après 10 frames sans signal
 
 final int NB_NOTES = 8;
 final float TEMPO = 30;
@@ -25,9 +26,12 @@ final int[] lNote = {6, 7, 1, 2, 3, 4, 5};
 //Minim minim = new Minim(this);
 
 // 2. VARIABLES D'ÉTAT GÉNÉRALES
-int[] noteValue = {262, 294, 330, 349, 392, 440, 494, 523}; 
+int frequenceAffichee = 0;
+int[] noteValue = {645, 700, 760, 830, 915, 990, 1110, 1190}; 
 int ecranActif = MENU;
 boolean partieEnCours = false;
+int noteDetectee = -1;
+int framesDepuisDerniereNote = 0;
 
 // 3. VARIABLES UI REGROUPÉES PAR FONCTION
 
@@ -46,7 +50,8 @@ Bouton[] BoutonMenu = {
 
 Bouton[] BoutonOption = {
   new Bouton(300, 400, 50, 50, couleurBouton, "+"),
-  new Bouton(400, 400, 50, 50, couleurBouton, "-")
+  new Bouton(400, 400, 50, 50, couleurBouton, "-"),
+  new Bouton(300, 500, 150, 50, couleurBouton, "Retour")
 };
 
 //inutile mais on sait jamais
@@ -120,7 +125,7 @@ void setup() {
 
   if(Serial.list().length>0){
     try{
-      myPort = new Serial(this, Serial.list()[0], 9600);
+      myPort = new Serial(this, "COM8", 9600);
       println("Connection au port: " + Serial.list()[0]);
       float tempo1 = (1/(frameRate/TEMPO))*1000;
       println("temp: " + tempo1);
@@ -143,19 +148,23 @@ void setup() {
 void draw() {
   background(couleurFond);
 
-  if(newNote != lastNote){
-    println("new: "+ newNote);
-    println("last: "+ lastNote);
-    resetLigne();
-    lastNote = newNote;
-    println("ne note");
-  }
-  //musiqueFond();
-  
-  if(!animationQueue.isEmpty()){
+  if (!animationQueue.isEmpty()) {
     animation(animationQueue.get(0));
   }
+
   menuePrincipal();
+
+  if (ecranActif == 1 && noteDetectee >= 0) {
+    testKey(noteDetectee);
+    noteDetectee = -1;
+    framesDepuisDerniereNote = 0; // reset le compteur
+  } else {
+    framesDepuisDerniereNote++;
+    if (framesDepuisDerniereNote >= DELAI_EXTINCTION) {
+      resetLigne(); // éteint seulement si silence prolongé
+      framesDepuisDerniereNote = DELAI_EXTINCTION; // plafonne pour éviter overflow
+    }
+  }
 }
 
 void animation(String points){
@@ -183,34 +192,33 @@ void animation(String points){
   }
 }
 
-void serialEvent(Serial p){
-  String[] strNote = {"DO","RE","MI","FA","SOL","LA","SI","DO"};
-  int val = checkNote();
-  newNote = val > 0 ? val : newNote;
-  if(ecranActif == 1){
-    testKey(newNote);
-    //println(StrNote[newNote]);/// affichage de verification 
-  }else if(ecranActif==0){
-    ecranActif = newNote < 3 ? newNote : 0;
-    //println("ecran: " + i);
-  }else if(ecranActif==2){
-    println("c'est bien");
-  }
-
-}
-
-int checkNote(){
-  int val = readUSBPort(); 
-  if(val > 0){
-    for (int i = 0; i < noteValue.length; i++) {
-      float note = noteValue[i];
-      
-      if (val > (note - 10) && val < (note + 10)) {
-        return i;
-      }
-    } 
+// Correspondance fréquence → index noteValue (0-7)
+// puis → colonne visuelle via lNote
+int freqVersColonne(int freq) {
+  int[] noteValue = {645, 700, 760, 830, 915, 960, 1110, 1150};
+  // Ordre des notes : Do, Ré, Mi, Fa, Sol, La, Si, Do
+  // lNote mappe : A=La→6, B=Si→7, C=Do→1, D=Ré→2, E=Mi→3, F=Fa→4, G=Sol→5
+  // On reconstruit le mapping fréquence → colonne directement :
+  int[] freqVersLigne = {1, 2, 3, 4, 5, 6, 7, 8}; // Do→1, Ré→2, Mi→3, Fa→4, Sol→5, La→6, Si→7, Do→8
+  
+  for (int i = 0; i < noteValue.length; i++) {
+    if (freq > (noteValue[i] - 40) && freq < (noteValue[i] + 40)) {
+      return freqVersLigne[i];
+    }
   }
   return -1;
+}
+
+void serialEvent(Serial p) {
+  int val = readUSBPort();
+  if (val > 0) {
+    frequenceAffichee = val;
+    noteDetectee = freqVersColonne(val); // retourne directement 1-8
+  }
+}
+
+int checkNote() {
+  return noteDetectee; // utilise ce qui a déjà été lu
 }
 
 
@@ -266,22 +274,30 @@ void mousePressed(){
 }
 
 void evenmentBouton(){
-  int numeroBouton;
-  if(ecranActif==0){
-    for(int i=0; i < BoutonMenu.length; i++){
-      ecranActif = BoutonMenu[i].clic() ? i : ecranActif;
+  if(ecranActif == MENU){
+    // Vérification du bouton "Jouer"
+    if(BoutonMenu[0].clic()){
+      ecranActif = 1; // Lance le JEU
+      println("Lancement du Jeu");
     }
-    println("Bouton" + ecranActif);
-  }else if(ecranActif==2){
-    for(int i=0; i < BoutonOption.length; i++){
-      if(BoutonOption[i].clic() && i == 0){
-        joueur1.dificutle += 1;
-        println("bouton");
-      }else if(BoutonOption[i].clic() && i == 1){
-        joueur1.dificutle -= 1;
-      }
+    // Vérification du bouton "Options"
+    else if(BoutonMenu[1].clic()){
+      ecranActif = 2; // Ouvre les OPTIONS
+      println("Ouverture des Options");
     }
-  }    
+    // Vérification du bouton "Quitter"
+    else if(BoutonMenu[2].clic()){
+      exit(); // Ferme le programme proprement
+    }
+  } else if(ecranActif == 2){ // Menu Options
+    for(int i = 0; i < BoutonOption.length; i++){
+        if(BoutonOption[i].clic()){
+            if(i == 0) joueur1.dificutle += 1;
+            else if(i == 1) joueur1.dificutle -= 1;
+            else if(i == 2) ecranActif = 0; // ICI : on repasse à l'écran MENU
+        }
+    }
+}
 }
 
 
