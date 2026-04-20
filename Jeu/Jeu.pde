@@ -223,7 +223,7 @@ void serialEvent(Serial p) {
   int[] noteValue = {645, 700, 760, 830, 915, 960, 1110, 1150};
   if (val > 0) {
     frequenceAffichee = val;
-    noteDetectee = closestSearch(noteValue, 0, noteValue.lenght-1, freq, 0);
+    noteDetectee = closestSearch(noteValue, 0, noteValue.length-1, val, 0);
   }
 }
 
