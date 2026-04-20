@@ -192,28 +192,38 @@ void animation(String points){
   }
 }
 
-// Correspondance fréquence → index noteValue (0-7)
-// puis → colonne visuelle via lNote
-int freqVersColonne(int freq) {
-  int[] noteValue = {645, 700, 760, 830, 915, 960, 1110, 1150};
-  // Ordre des notes : Do, Ré, Mi, Fa, Sol, La, Si, Do
-  // lNote mappe : A=La→6, B=Si→7, C=Do→1, D=Ré→2, E=Mi→3, F=Fa→4, G=Sol→5
-  // On reconstruit le mapping fréquence → colonne directement :
-  int[] freqVersLigne = {1, 2, 3, 4, 5, 6, 7, 8}; // Do→1, Ré→2, Mi→3, Fa→4, Sol→5, La→6, Si→7, Do→8
-  
-  for (int i = 0; i < noteValue.length; i++) {
-    if (freq > (noteValue[i] - 40) && freq < (noteValue[i] + 40)) {
-      return freqVersLigne[i];
+
+int closestSearch(int[] tab, int left, int right, int target, int bestIndex) {
+    if (left > right) {
+        return bestIndex;
     }
-  }
-  return -1;
+
+    int mid = (left + right) / 2;
+
+    if (Math.abs(tab[mid] - target) < Math.abs(tab[bestIndex] - target)) {
+        bestIndex = mid;
+    }
+
+    // Si on tombe pile dessus
+    if (tab[mid] == target) {
+        return mid;
+    }
+
+    // Recherche à gauche
+    if (target < tab[mid]) {
+        return closestSearch(tab, left, mid - 1, target, bestIndex);
+    }
+
+    // Recherche à droite
+    return closestSearch(tab, mid + 1, right, target, bestIndex);
 }
 
 void serialEvent(Serial p) {
   int val = readUSBPort();
+  int[] noteValue = {645, 700, 760, 830, 915, 960, 1110, 1150};
   if (val > 0) {
     frequenceAffichee = val;
-    noteDetectee = freqVersColonne(val); // retourne directement 1-8
+    noteDetectee = closestSearch(noteValue, 0, noteValue.lenght-1, freq, 0);
   }
 }
 
